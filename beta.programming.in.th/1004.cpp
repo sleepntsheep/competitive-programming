@@ -1,62 +1,71 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
-
-
-int getIndex(vector<int> v, int k){
-    auto it = find(v.begin(), v.end(), k);
-    if (it != v.end())
-    {
-        int index = it - v.begin();
-        return index;
-    }
-    else 
-    {
-        return -1;
-    }
-}
-
 int main() {
-    int nc, ns;
-    cin >> nc >> ns;
-
-    vector<int> uid;
-    vector<int> cla;
-
-    vector<int> line_uid;
-    vector<int> line_cla;
-
-    for (int i = 0 ; i < ns ;  i ++ ) {
+    int classn, stdn;
+    cin >> classn >> stdn;
+    map<int, int> stdid_class;
+    map<int, int> stdid_inline;
+    for (int i = 0; i < stdn; i++){
         int a, b;
         cin >> a >> b;
-        uid.push_back(b);
-        cla.push_back(a);
+        stdid_class[b] = a;
+        stdid_inline[b] = 0;
     }
 
-    char op = 'I';
-    int opn;
-    while (op != 'X') {
-        cin >> op >> opn;
+
+    /*for_each(stdid_class.begin(),
+            stdid_class.end(),
+            [](const pair<int, int> &p) {
+            cout << '{' << p.first << ": " << p.second << "}\n";
+            });*/
+
+    char op = ' ';
+    int opcode;
+    vector<int> line;
+    vector<int> waiting;
+    int waitingi = 0;
+    vector<int> result;
+    while (op != 'X'){
+        cin >> op;
         if (op == 'E') {
-            int index = getIndex(uid, opn);
-            cout << "Finding index of uid, operation number: " << opn <<" || Result " <<index << endl;
-            if (index == -1) continue;
-            int classindex = 
-            line_uid.insert(line_uid.begin + classIndex)
-            //line_uid.push_back(uid[opn]);
-            //line_cla.push_back(cla[opn]);
-            //uid.erase(uid.begin());
-            //cla.erase(cla.begin());
-        }
+            cin >> opcode;
+            int thisstdclass = stdid_class[opcode];
+            int foundclass = 0;
+            for (int i = waitingi ; i < line.size(); i++){
+                if (i == line.size() - 1) {
+                    break;
+                }
+                if (stdid_class[line[i]] == thisstdclass && thisstdclass != stdid_class[line[i+1]]){
+                    foundclass = 1;
+                    line.insert(line.begin() + i + 1, opcode);
+                    break;
+                }
+            }
+            if (!foundclass) {
+                line.push_back(opcode);
+            }
+        }   
         else if (op == 'D') {
-            cout << uid.front() << endl;
-            //uid.push_back(line_uid.front());
-            //cla.push_back(line_cla.front());
-            line_uid.erase(line_uid.begin());
-            line_cla.erase(line_cla.begin());
+            //cout << line[waitingi] << endl;
+            result.push_back(line[waitingi]);
+            //line.erase(line.begin());
+            waitingi++;
         }
+        else if (op == 'S'){
+            cout << endl;
+            for (int i = 0 ; i < line.size(); i++){
+                cout << ' ' << line[i] <<' ';
+            }
+            cout << endl;
+        }
+        
     }
+
+    for( int i =0 ; i < result.size(); i++){
+        cout <<result[i] << endl;
+    }
+
+    cout << '0';
 
     return 0;
 }
