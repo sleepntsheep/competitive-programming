@@ -11,18 +11,9 @@ int main() {
         stdid_class[b] = a;
         stdid_inline[b] = 0;
     }
-
-
-    /*for_each(stdid_class.begin(),
-            stdid_class.end(),
-            [](const pair<int, int> &p) {
-            cout << '{' << p.first << ": " << p.second << "}\n";
-            });*/
-
     char op = ' ';
     int opcode;
     vector<int> line;
-    vector<int> waiting;
     int waitingi = 0;
     vector<int> result;
     while (op != 'X'){
@@ -46,19 +37,9 @@ int main() {
             }
         }   
         else if (op == 'D') {
-            //cout << line[waitingi] << endl;
             result.push_back(line[waitingi]);
-            //line.erase(line.begin());
             waitingi++;
         }
-        else if (op == 'S'){
-            cout << endl;
-            for (int i = 0 ; i < line.size(); i++){
-                cout << ' ' << line[i] <<' ';
-            }
-            cout << endl;
-        }
-        
     }
 
     for( int i =0 ; i < result.size(); i++){
