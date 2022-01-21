@@ -1,15 +1,15 @@
 #include <iostream>
-
 using namespace std;
-
 int main() {
-    int price;
-    cin >> price;
-    
-    int r1, r2;
-    r1 = price % 3;
-    r2 = price % 11;
-    cout << r1 << " " << r2;
-
-    return 0;
+    string num;
+    cin >> num;
+    int r11 = 0;
+    int r3 = 0;
+    bool e;
+    for (int i = 0; i < num.length(); i++)
+        r3 += num[i] - '0';
+    for (int i = 0; i < num.length(); i++)
+        r11 = ((r11 * 10) + (num[i]) - '0') % 11;
+    r3 = r3 % 3;
+    cout << r3 << ' ' << r11;
 }

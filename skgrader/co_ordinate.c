@@ -23,6 +23,7 @@ int main() {
         b[i][x] = '|';
     for (int i = 0; i < w+2; i++)
         b[y][i] = '-';
+
     for (int i = 0; i < h+2; i++)
         b[i][0] = '#';
     for (int i = 0; i < w+2; i++)
