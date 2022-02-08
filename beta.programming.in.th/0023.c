@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+// 1 jan 2009 = thrusday
+char ds[7][10] = {"Thrusday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"};
+int dim[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+int d, m;
+
+int main() {
+	scanf("%d%d", &d, &m);
+	for (int i = 0; i < m; i++)
+		d += dim[i];
+	printf("%s", ds[(6+d) % 7]);
+}

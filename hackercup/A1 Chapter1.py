@@ -1,0 +1,18 @@
+vowels = ['a', 'e', 'i', 'o', 'u']
+
+n = int(input())
+r = []
+for i in range(n):
+    s = str(input()).lower()
+    vowelscount = 0
+    concount = 0
+    for c in s:
+        if c in vowels:
+            vowelscount += 1
+        else:
+            concount += 1
+    result = min(vowelscount, concount)
+    r.append(concount)
+
+for i in range(len(r)):
+    print(f'Case #{i+1}: {r[i]}')
