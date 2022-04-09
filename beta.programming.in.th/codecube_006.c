@@ -6,6 +6,6 @@ int n;
 int main() {
 	scanf("%d", &n);
 	int a[n];
-	memset(a, sizeof a);
+	memset(a, 0, sizeof a);
 
 }

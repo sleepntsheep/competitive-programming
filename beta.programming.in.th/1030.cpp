@@ -1,45 +1,51 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
+#define pii pair<int, int>
+#define tif pair<pii, double>
+#define st first
+#define nd second
+#define stt st.st
+#define ndd st.nd
+#define rd nd
+
+bool compare(tif a, tif b) {
+    return (a.rd < b.rd);
+}
 
 int main() {
     int k, m;
     cin >> k;
-    int type[k][2];
-    double priceper[k];
-    int used[k] = { 0 };
-    for (int i = 0; i < k; i++) cin >> type[i][0] >> type[i][1];
+    
+    tif ri[k];
+    for (int i =0 ;i < k; i++) {
+        cin >> ri[i].stt >> ri[i].ndd;
+        ri[i].rd = (double)ri[i].stt / (double)ri[i].ndd;
+    }
     cin >> m;
-    int kilo[m]; 
-    double result[m] = { 0 };
-    for (int i = 0; i < m; i++) cin >> kilo[i];
-    for (int i = 0; i < m; i++) priceper[k] = type[i][0] / type[i][1];
-
-    int zz  = 0 ;
-    for (int i = 0; i < m; i++) {
-        int min = k;
-        int jj;
-        for (int j = 0; j < k; j++){
-            if (priceper[j] < min && type[j][0] != 0) {
-                used[j] = 1;
-                min = priceper[j];
-                if (!zz) jj = j;
+    sort(ri, ri+k, compare);
+    int z;
+    int i = 0;
+    while(m--) {
+        double p = 0;
+        z = 0;
+        cin >> z;
+        while (z > 0) {
+            if (z < ri[i].ndd) {
+                ri[i].ndd -= z;
+                p += z * ri[i].rd;
+                z = 0;
+            }
+            else {
+                z -= ri[i].ndd;
+                p += ri[i].ndd * ri[i].rd;
+                ri[i].ndd = 0;
+                i++;
             }
         }
-        if (kilo[i] > type[jj][0]) {
-            type[jj][0] -= kilo[i];
-            result[i] += kilo[i] * priceper[jj];
-        } else {
-            kilo[i] -= type[jj][0];
-            result[i] += type[jj][0] * priceper[jj];
-            type[jj][0] == 0;
-            i--;
-            zz == 1;
-            continue;
-        }
-    }
-
-    for (int i = 0; i < m; i++){
-        cout << result[i] << endl;
-    }
+        printf("%.3lf\n", p);
+    } 
+    
+       
     
 }
