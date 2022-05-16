@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 
 int c[10005];
 int ma;
