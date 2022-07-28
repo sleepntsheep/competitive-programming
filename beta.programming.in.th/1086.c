@@ -31,23 +31,33 @@
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 
+int pi[10005], at, n, k, a, i, j, s, nread, start;
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
+    scanf("%d%d%d", &n, &k, &a);
 
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
+    for(i = 0; i < n; i++)  {
+        scanf("%d", &s);
+        for (j = at; j < at + s; j++)
+            pi[j] = i;
+        at += s;
+    }
+
+    for (i = 0; i < at; i++) {
+        int rd[105] = { 0 };
+        int c = 0, page = i;
+        for (int tp = 0; tp < k && page < at; tp++) {
+            c += !rd[pi[page]];
+            rd[pi[page]] = 1;
+            page += a;
+        }
+
+        if (c > nread) {
+            nread = c;
+            start = i;
         }
     }
+
+    printf("%d %d", start+1, nread);
 
     return 0;
 }

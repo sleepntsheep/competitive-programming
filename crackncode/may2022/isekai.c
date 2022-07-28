@@ -31,23 +31,40 @@
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 
+int n, q, a, b, c, d;
+
+#define AT(x) (((x) > (b-a) ? (c+(x-(b-a)-1)) : (x+a)))
+
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
-
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
+    scanf("%d%d", &n, &q);
+    char s[n+5];
+    int sh[n+5];
+    scanf("%s", s+1);
+    *sh = 0;
+    sh[1] = s[1];
+    for (int i = 2; i <= n; i++)
+        sh[i] = sh[i-1] + s[i];
+    while(q--) {
+        scanf("%d%d%d%d", &a, &b, &c, &d);
+        int l = b-a+d-c+2;
+        int mid = AT(l/2 - 1);
+        int midr = AT(l/2 + (l & 1));
+        //printf("len: %d mid: %d, midr: %d, \n: ", l, mid, midr);
+        if (sh[mid] - sh[MAX(a-1,0)] == sh[d]-sh[MAX(0,midr-1)]) {
+            int y = 0, u = l-1;
+            while (y < u) {
+                char c1 = s[AT(y)], c2 = s[AT(u)];
+                //printf("%c %c\n", c1,c2);
+                if (c1 != c2)
+                    goto e;
+                y++, u--;
             }
+            // check
+            puts("YES");
+            continue;
         }
+e:;
+        puts("NO");
     }
-
     return 0;
 }

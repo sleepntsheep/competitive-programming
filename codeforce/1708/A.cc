@@ -20,34 +20,40 @@
   ⠀⠀⠀⠀⠀⠀⠀⠱⡄⢹⣧⠘⣿⣅⠛⠯⣀⣻⡏⠙⣿⠏⣉⢢⣞⣁⣹⠯⠤⣾⡟⠉⢀⣯⠾⠃⠀⢀⡼⠃⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⣿⣦⠘⢻⣆⠀⠀⠀⠀⠈⠀⠀⡀⠉⢢⠀⠀⠀⢴⡟⠀⣠⠿⠁⣀⣠⡶⣋⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠙⢧⠀⠻⣇⠀⠀⠀⠀⠀⠈⠛⢀⡼⠀⣀⡤⣋⣄⣴⣧⣶⣾⠿⠟⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀owa owa */
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀  owa owa */
+#include <bits/stdc++.h>
+using namespace std;
 
-#include <stdio.h>
-#include <stdlib.h>
+const int INF = 1e9;
 
+#define pii pair<int, int>
+#define st first
+#define nd second
 #define FOR(i,a,b) for(int i = a; i < b; i++)
 #define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
 
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
+    cin.tie(nullptr);
+    ios::sync_with_stdio(false);
 
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
+    int t;
+    cin >> t;
+    while(t--) {
+    int n;
+    cin >> n;
+    int a[n];
+    FOR(i,0,n)
+        cin >> a[i];
+    string ok = "YES";
+    FOR(i,0,n)
+        if (a[i] % a[0] != 0) {
+            ok = "NO";
+            break;
         }
+    cout << ok << '\n';
     }
+
 
     return 0;
 }
+

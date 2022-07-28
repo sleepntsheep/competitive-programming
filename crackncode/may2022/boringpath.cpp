@@ -20,34 +20,42 @@
   ⠀⠀⠀⠀⠀⠀⠀⠱⡄⢹⣧⠘⣿⣅⠛⠯⣀⣻⡏⠙⣿⠏⣉⢢⣞⣁⣹⠯⠤⣾⡟⠉⢀⣯⠾⠃⠀⢀⡼⠃⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⣿⣦⠘⢻⣆⠀⠀⠀⠀⠈⠀⠀⡀⠉⢢⠀⠀⠀⢴⡟⠀⣠⠿⠁⣀⣠⡶⣋⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠙⢧⠀⠻⣇⠀⠀⠀⠀⠀⠈⠛⢀⡼⠀⣀⡤⣋⣄⣴⣧⣶⣾⠿⠟⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀owa owa */
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀  owa owa */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
+using namespace std;
 
+const int INF = 1e9;
+
+#define pii pair<int, int>
+#define piii pair<pii, int>
+#define st first
+#define nd second
 #define FOR(i,a,b) for(int i = a; i < b; i++)
-#define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
+
+const int N = 100005;
+int a[N], dist[N];
+piii g[N];
 
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
-
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
-        }
+    cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    int n, u, v, w;
+    cin >> n;
+    FOR(i,1,n+1) cin >> a[i];
+    FOR(i,0,n) {
+        cin >> u >> v >> w;
+        g[i] = {{w,u},v};
     }
+
+    FOR(i,0,n) {
+        auto x = g[i];
+
+    }
+    
 
     return 0;
 }
+
+
+

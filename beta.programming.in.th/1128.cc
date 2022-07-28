@@ -20,34 +20,28 @@
   ⠀⠀⠀⠀⠀⠀⠀⠱⡄⢹⣧⠘⣿⣅⠛⠯⣀⣻⡏⠙⣿⠏⣉⢢⣞⣁⣹⠯⠤⣾⡟⠉⢀⣯⠾⠃⠀⢀⡼⠃⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⣿⣦⠘⢻⣆⠀⠀⠀⠀⠈⠀⠀⡀⠉⢢⠀⠀⠀⢴⡟⠀⣠⠿⠁⣀⣠⡶⣋⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠙⢧⠀⠻⣇⠀⠀⠀⠀⠀⠈⠛⢀⡼⠀⣀⡤⣋⣄⣴⣧⣶⣾⠿⠟⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀owa owa */
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀  owa owa */
 
 #include <stdio.h>
-#include <stdlib.h>
-
-#define FOR(i,a,b) for(int i = a; i < b; i++)
-#define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
 
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
-
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
-        }
+    int n;
+    long long s = 0;
+    scanf("%d", &n);
+    long long a[n], qs[n], qqs[n];
+    for (int i = 0; i < n; i++)
+        scanf("%lld", a+i);
+    *qqs = *qs = *a;
+    for (int i = 1; i < n; i++) {
+        qs[i] = qs[i-1] + a[i];
+        qqs[i] = qqs[i-1] + qs[i];
     }
+    for (int i = 0; i < n; i++)
+        s += qqs[i];
+    printf("%lld", s % 2553);
 
     return 0;
 }
+
+
+

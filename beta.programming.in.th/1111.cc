@@ -20,34 +20,60 @@
   ⠀⠀⠀⠀⠀⠀⠀⠱⡄⢹⣧⠘⣿⣅⠛⠯⣀⣻⡏⠙⣿⠏⣉⢢⣞⣁⣹⠯⠤⣾⡟⠉⢀⣯⠾⠃⠀⢀⡼⠃⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⣿⣦⠘⢻⣆⠀⠀⠀⠀⠈⠀⠀⡀⠉⢢⠀⠀⠀⢴⡟⠀⣠⠿⠁⣀⣠⡶⣋⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠙⢧⠀⠻⣇⠀⠀⠀⠀⠀⠈⠛⢀⡼⠀⣀⡤⣋⣄⣴⣧⣶⣾⠿⠟⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀owa owa */
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀  owa owa */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
+using namespace std;
 
+const int INF = 1e9;
+
+#define pii pair<int, int>
+#define st first
+#define nd second
 #define FOR(i,a,b) for(int i = a; i < b; i++)
 #define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
 
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
+    cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    int n;
+    cin >> n;
+    vector<pii> g[n+1];
+    int c[n+1];
+    FOR(i,1,n) {
+        int u, v, w;
+        cin >> u >> v >> w;;
+        g[u].emplace_back(w,v);
+        g[v].emplace_back(w,u);
+    }
 
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+
+    fill (c, c+n+1, INF);
+    c[1] = 0;
+    pq.emplace(0, 1);
+
+    while(!pq.empty()) {
+        auto cn = pq.top().st;
+        auto u = pq.top().nd;
+        pq.pop();
+        if (cn != c[u]) continue;
+        for (auto x : g[u]) {
+            if (cn+x.st < c[x.nd]) {
+                c[x.nd] = cn+x.st;
+                pq.emplace(cn+x.st, x.nd);
             }
         }
     }
 
+    int mx = -1;
+    FOR(i,1,n+1) {
+        mx = max(mx, c[i]);
+    }
+    cout << mx;
+
     return 0;
 }
+
+
+

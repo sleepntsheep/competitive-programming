@@ -20,34 +20,52 @@
   ⠀⠀⠀⠀⠀⠀⠀⠱⡄⢹⣧⠘⣿⣅⠛⠯⣀⣻⡏⠙⣿⠏⣉⢢⣞⣁⣹⠯⠤⣾⡟⠉⢀⣯⠾⠃⠀⢀⡼⠃⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⣿⣦⠘⢻⣆⠀⠀⠀⠀⠈⠀⠀⡀⠉⢢⠀⠀⠀⢴⡟⠀⣠⠿⠁⣀⣠⡶⣋⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠙⢧⠀⠻⣇⠀⠀⠀⠀⠀⠈⠛⢀⡼⠀⣀⡤⣋⣄⣴⣧⣶⣾⠿⠟⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀owa owa */
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀  owa owa */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
+using namespace std;
 
-#define FOR(i,a,b) for(int i = a; i < b; i++)
-#define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
+const int M = 12;
+
+struct S{int x, y, z, m, k, c;};
+
+using namespace std;
+int n, m, i, j, k;
+vector<S> a(M);
+int ans = 1e9;
+
+#define PW2(x) ((x) * (x))
+
+int _dist(int i, int j) {
+    return PW2(a[i].x - a[j].x) + PW2(a[i].y - a[j].y) + PW2(a[i].z - a[j].z);
+}
+
+void dfs(int c, bitset<M> bs, int nm, int nk, int nc, int dst) {
+    nm += a[c].m;
+    nk += a[c].k;
+    nc += a[c].c;
+    if (min(min(nm,nk),nc) >= n) {
+        ans = min(ans, dst);
+        return;
+    }
+    bs[c] = 1;
+
+    for (int i = 0; i <= m; i++) {
+        if (bs[i]) continue;
+        bs[i] = 1;
+        dfs(i, bs, nm, nk, nc, dst + _dist(c, i));
+        bs[i] = 0;
+    }
+}
 
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
-
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
-        }
+    cin >> n >> a[0].x >> a[0].y >> a[0].z >> m;
+    for (i = 1; i <= m; ++i) {
+        cin >> a[i].x >> a[i].y >> a[i].z >> a[i].m >> a[i].k >> a[i].c;
     }
+    bitset<M> bs;
+    dfs(0, bs, 0, 0, 0, 0);
+    cout << ans;
 
     return 0;
 }

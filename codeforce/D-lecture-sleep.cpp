@@ -20,34 +20,46 @@
   ⠀⠀⠀⠀⠀⠀⠀⠱⡄⢹⣧⠘⣿⣅⠛⠯⣀⣻⡏⠙⣿⠏⣉⢢⣞⣁⣹⠯⠤⣾⡟⠉⢀⣯⠾⠃⠀⢀⡼⠃⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⣿⣦⠘⢻⣆⠀⠀⠀⠀⠈⠀⠀⡀⠉⢢⠀⠀⠀⢴⡟⠀⣠⠿⠁⣀⣠⡶⣋⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠙⢧⠀⠻⣇⠀⠀⠀⠀⠀⠈⠛⢀⡼⠀⣀⡤⣋⣄⣴⣧⣶⣾⠿⠟⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀owa owa */
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀  owa owa */
+#include <iostream>
+using namespace std;
 
-#include <stdio.h>
-#include <stdlib.h>
+const int INF = 1e9;
 
+#define pii pair<int, int>
+#define st first
+#define nd second
 #define FOR(i,a,b) for(int i = a; i < b; i++)
 #define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
 
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
-
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
-        }
+    cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    int n, m;
+    cin >> n >> m;
+    const int N = 100005;
+    int theorem[N];
+    int mishka[N];
+    int qs[N];
+    FOR(i,0,n) cin >> theorem[i];
+    FOR(i,0,n) cin >> mishka[i];
+    *qs = *theorem*!*mishka;
+    FOR(i,1,n) qs[i] = qs[i-1]+ theorem[i]*!mishka[i];
+    int pos, mx=-1;
+    FOR(i,0,n-m+1) {
+        int d = qs[i+m-1] - ((i-1 >= 0) ? qs[i-1] : 0);
+        if (d > mx)
+            mx = d, pos =i;
     }
+
+    FOR(i,pos,pos+m) mishka[i] = 1;
+
+    int ans = 0;
+    FOR(i,0,n) ans += theorem[i] * mishka[i];
+    cout << ans;
 
     return 0;
 }
+
+
+

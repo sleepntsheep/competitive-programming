@@ -20,34 +20,66 @@
   ⠀⠀⠀⠀⠀⠀⠀⠱⡄⢹⣧⠘⣿⣅⠛⠯⣀⣻⡏⠙⣿⠏⣉⢢⣞⣁⣹⠯⠤⣾⡟⠉⢀⣯⠾⠃⠀⢀⡼⠃⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⣿⣦⠘⢻⣆⠀⠀⠀⠀⠈⠀⠀⡀⠉⢢⠀⠀⠀⢴⡟⠀⣠⠿⠁⣀⣠⡶⣋⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠙⢧⠀⠻⣇⠀⠀⠀⠀⠀⠈⠛⢀⡼⠀⣀⡤⣋⣄⣴⣧⣶⣾⠿⠟⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀owa owa */
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀  owa owa */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
+using namespace std;
 
+const int INF = 1e9;
+
+#define pii pair<int, int>
+#define st first
+#define nd second
 #define FOR(i,a,b) for(int i = a; i < b; i++)
 #define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
 
 int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
+//    cin.tie(nullptr);
+//    ios::sync_with_stdio(false);
+    int n, m, p, a, b, i, j, k;
+    int X[p];
+    cin >> n >> m >> p >> a >> b;
+    vector<int> g[n];
+    int distb[n], dista[n];
+    FOR(i,0,n) distb[i] = 1e9, dista[i] = 1e9;
+    FOR(i,0,m) {
+        cin >> j >> k;
+        j--,k--;
+        g[j].push_back(k);
+        g[k].push_back(j);
+    }
+    FOR(i,0,p) cin >> X[i];
 
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
-        }
+    queue<pii> q;
+    q.emplace(0, b);
+    while(!q.empty()) {
+        int w = q.front().st;
+        int t = q.front().nd;
+        q.pop();
+        if (distb[t] > w)
+            distb[t] = w;
+        else continue;
+        for (auto x: g[t])
+            q.emplace(w+1,x);
+    }
+
+    q.emplace(0, a);
+    while(!q.empty()) {
+        int w = q.front().st;
+        int t = q.front().nd;
+        q.pop();
+        if (dista[t] > w)
+            dista[t] = w;
+        else continue;
+        for (auto x: g[t])
+            q.emplace(w+1,x);
+    }
+
+    FOR(i,0,p) {
     }
 
     return 0;
 }
+
+
+

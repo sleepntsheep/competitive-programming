@@ -31,23 +31,86 @@
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 
-int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
+#define N 155
 
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
+int m, n, sx, sy, ey, ex;
+int valid, _min = 1e9;
+
+int b[N][N];
+int dist[N][N];
+int v[N][N];
+
+const int dx[] = {1,-1,0,0};
+const int dy[] = {0,0,1,-1};
+
+int out(int x, int y) {
+    return x < 0 || y < 0 || x >= n || y >= m;
+}
+
+void dfs(int x, int y, int type) {
+    FOR(i,0,4) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        if (out(nx,ny)) continue;
+        if (!b[ny][nx]) continue;
+        if (dist[ny][nx] <= dist[y][x] + 1) continue;
+        dist[ny][nx] = dist[y][x] + 1;
+        v[ny][nx] = type;
+        dfs(nx, ny, type);
+    }
+}
+
+void dfshelp(int x, int y, int type) {
+    dist[y][x] = 1;
+    v[y][x] = type;
+    dfs(x,y,type);
+}
+
+void ee(int x, int y, int x2, int y2, int xx, int yy) {
+    if (out(x,y) || out(x2,y)) return;
+    if (v[y][x] + v[y2][x2] != 3) return;
+    if (v[yy][xx] + 5)
+        valid++;
+    _min = MIN(_min,dist[y][x]+1+dist[y2][x2]);
+    v[yy][xx] = -5;
+}
+
+int main() {
+    FOR(i,0,155) FOR(j,0,155) dist[i][j] = 1e9;
+
+    scanf(" %d %d %d %d %d %d", &m, &n, &sy, &sx, &ey, &ex);
+    sx--;sy--;ex--;ey--;
+
+    FOR(i,0,m) FOR(j,0,n) scanf(" %d", &b[i][j]);
+
+    dfshelp(sx,sy,1);
+    dfshelp(ex,ey,2);
+
+#ifdef DEBUG
+    FOR(i,0,m){
+        FOR(j,0,n)
+            printf("%10d ", v[i][j]);
+        puts("");
+    }
+#endif
+
+    FOR(i,0,m)
+    {
+        FOR(j,0,n)
+        {
+            if (v[i][j]) continue;
+
+            ee(j+1,i,j-1,i,j,i);
+            ee(j,i-1,j,i+1,j,i);
+
+            ee(j-1,i,j,i-1,j,i);
+            ee(j+1,i,j,i-1,j,i);
+            ee(j-1,i,j,i+1,j,i);
+            ee(j+1,i,j,i+1,j,i);
         }
     }
+
+    printf("%d\n%d", valid, _min);
 
     return 0;
 }

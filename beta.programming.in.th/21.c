@@ -31,23 +31,19 @@
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 
-int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
+int isvow(char c){ 
+    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+}
 
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
-        }
-    }
+int main() {
+    char s1[105];
+    fgets(s1,105,stdin);
+
+    for(int i=0;s1[i]!='\n';i++)
+        if (isvow(s1[i]))
+            printf("%c",s1[i]), i+=2;
+        else
+            printf("%c",s1[i]);
 
     return 0;
 }

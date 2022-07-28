@@ -20,34 +20,70 @@
   ⠀⠀⠀⠀⠀⠀⠀⠱⡄⢹⣧⠘⣿⣅⠛⠯⣀⣻⡏⠙⣿⠏⣉⢢⣞⣁⣹⠯⠤⣾⡟⠉⢀⣯⠾⠃⠀⢀⡼⠃⣀⡴⠋⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢢⣿⣦⠘⢻⣆⠀⠀⠀⠀⠈⠀⠀⡀⠉⢢⠀⠀⠀⢴⡟⠀⣠⠿⠁⣀⣠⡶⣋⡤⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠙⢧⠀⠻⣇⠀⠀⠀⠀⠀⠈⠛⢀⡼⠀⣀⡤⣋⣄⣴⣧⣶⣾⠿⠟⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀owa owa */
+  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠤⠌⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉⠀⠀⠀⠀⠀⠀  owa owa */
+#include <bits/stdc++.h>
+using namespace std;
 
-#include <stdio.h>
-#include <stdlib.h>
-
+#define pii pair<int, int>
+#define st first
+#define nd second
 #define FOR(i,a,b) for(int i = a; i < b; i++)
 #define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
 
-int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
+const int N = 505;
+int p[N], dist[N];
+vector<pii> g[N];
+ll n, m, u, v, li, a, ad = 1e9, d;
 
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
+void dijk(int x) {
+    FOR(i,0,N) dist[i]=1e9;
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    dist[x] = 0;
+    pq.emplace(0,x);
+    while(!pq.empty()) {
+        int d = pq.top().st;
+        int u = pq.top().nd;
+        pq.pop();
+        if (dist[u] != d) continue;
+
+        for (auto nx : g[u]) {
+            int nd = nx.st + d;
+            int ni = nx.nd;
+            if (nd < dist[ni]) {
+                dist[ni] = nd;
+                pq.emplace(nd, ni);
             }
         }
     }
+}
 
+int main() {
+    cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    cin >> n >> m;
+    FOR(i,1,n+1)
+        cin >> p[i];
+    
+    FOR(i,0,m) {
+        cin >> u >> v >> li;
+        g[u].emplace_back(li, v);
+        g[v].emplace_back(li, u);
+    }
+
+    FOR(i,1,n+1) {
+        d = 0;
+        dijk(i);
+        FOR(j,1,n+1)
+            d += dist[j] * p[j];
+        if (d < ad) {
+            a = i;
+            ad = d;
+        }
+    }
+
+    cout << a << ' ' << ad;
     return 0;
 }
+
+
+

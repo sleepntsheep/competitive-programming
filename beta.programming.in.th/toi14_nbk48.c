@@ -25,29 +25,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define FOR(i,a,b) for(int i = a; i < b; i++)
-#define ll long long
-#define INF 1e9
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
+typedef struct pair {
+    int s, n;
+} P;
 
-int main() {
-    int n,k, c=0;
-    scanf("%d%d", &n, &k);
-    int a[1005];
-    FOR(i,0,n+1) a[i]=0;
+int
+pcmp(const void *a, const void *b)
+{
+    return ((P*)a)->s - ((P*)b)->s;
+}
 
-    FOR(i,2,n+1){
-        if (a[i]) continue;
-        for(int j=1,tk;(tk=i*j)<=n;j++) {
-            if (a[tk]) continue;
-            c += a[tk] = 1;
-            if (c == k) {
-                printf("%d", tk);
-                return 0;
-            }
-        }
+int
+main() 
+{
+    int n, q, i, w;
+    scanf("%d%d", &n, &q);
+#ifdef __cplusplus
+    P *p = (P*)malloc(sizeof(P) * (n+1));
+#else
+    P *p = malloc(sizeof(P) * (n+1));
+#endif
+    for (i = 1; i <= n; i++) {
+        scanf("%d", &p[i].s);
+        p[i].n = i;
+        p[i].s += p[i-1].s;
     }
 
+    qsort(p+1, n, sizeof *p, pcmp);
+    for (i = 1; i <= n; i++)
+        if (p[i].n < p[i-1].n) p[i].n = p[i-1].n;
+
+    while(q--) {
+        scanf("%d", &w);
+        P *l = p+1, *r = p + n, *mid, *ans = p;
+        while (l <= r) {
+            mid = l + (r - l + 1) / 2;
+            if (mid->s <= w) {
+                ans = mid;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        printf("%d\n", ans->n);
+    }
     return 0;
 }
